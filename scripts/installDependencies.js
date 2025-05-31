@@ -197,9 +197,11 @@ if (platform == "macos") {
 
 	console.log("Setting up Swift UI monitoring...");
 	try {
-		const swiftSrc = mkdirSync(
-			path.join(binDir, "..", "temp", "ui_monitoring_macos.swift")
-		);
+		const tempDir = path.join(binDir, "..", "temp");
+		if (!existsSync(tempDir)) {
+			mkdirSync(tempDir, { recursive: true });
+		}
+		const swiftSrc = path.join(tempDir, "ui_monitoring_macos.swift");
 		await download(
 			`https://raw.githubusercontent.com/mediar-ai/screenpipe/refs/tags/v${process.env.SCREENPIPE_VERSION}/screenpipe-vision/src/ui_monitoring_macos.swift`,
 			swiftSrc
